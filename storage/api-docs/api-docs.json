@@ -1,0 +1,623 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Product Management API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/register": {
+            "get": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Sign in",
+                "description": "Register new user with name, email, password",
+                "operationId": "authLogin",
+                "requestBody": {
+                    "description": "Enter user details",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password",
+                                    "password_comfirmation"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user1@mail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "PassWord12345"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "PassWord12345"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Invalid  Details entered response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid user details details. "
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "user": {
+                                            "$ref": "#/components/schemas/User"
+                                        },
+                                        "token": {
+                                            "type": "object",
+                                            "example": "2|fhfdnsnsnsnnsnsnsnns"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Sign in",
+                "description": "Login by email, password",
+                "operationId": "authLogin",
+                "requestBody": {
+                    "description": "Enter user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user1@mail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "PassWord12345"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Wrong credentials response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid Login details. "
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "user": {
+                                            "$ref": "#/components/schemas/User"
+                                        },
+                                        "token": {
+                                            "type": "object",
+                                            "example": "2|fhfdnsnsnsnnsnsnsnns"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Logout",
+                "description": "Logout user and invalidate token",
+                "operationId": "authLogout",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "401": {
+                        "description": "Returns when user is not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not authorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/products": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get all products in the system",
+                "description": "Get all products in the system",
+                "operationId": "Products",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "product": {
+                                            "$ref": "#/components/schemas/Product"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/products/": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "seaech for product that matches search query in the system",
+                "description": "Delete a specific product in the system",
+                "operationId": "Products",
+                "responses": {
+                    "401": {
+                        "description": "Invalid  search parameter entered",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid  search parameter entered"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "user": {
+                                            "$ref": "#/components/schemas/Product"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Save a new product into the system",
+                "description": "Save a new product into the system",
+                "operationId": "Products",
+                "requestBody": {
+                    "description": "Enter Product details",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "slug",
+                                    "price"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "IPhone 12"
+                                    },
+                                    "slug": {
+                                        "type": "string",
+                                        "example": "IPhone-12"
+                                    },
+                                    "description": {
+                                        "type": "text",
+                                        "example": "IPhone 12 phone description"
+                                    },
+                                    "price": {
+                                        "type": "decimal",
+                                        "example": "4000.00"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Invalid  Product detials entered",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid  Product Details entered "
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "product": {
+                                            "$ref": "#/components/schemas/Product"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/products/id": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get a specific product in the system",
+                "description": "Get a specific product in the system",
+                "operationId": "Products",
+                "responses": {
+                    "401": {
+                        "description": "Invalid  Product ID entered",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid  Product ID entered "
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "user": {
+                                            "$ref": "#/components/schemas/Product"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Delete a specific product in the system",
+                "description": "Delete a specific product in the system",
+                "operationId": "Products",
+                "responses": {
+                    "401": {
+                        "description": "Invalid  Product ID entered",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid  Product ID entered "
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "object",
+                                            "example": "1"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/products/ID": {
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Update an existing product into the system",
+                "description": "Update an existing product into the system",
+                "operationId": "Products",
+                "requestBody": {
+                    "description": "Enter Product details",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "slug",
+                                    "price"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "IPhone 12"
+                                    },
+                                    "slug": {
+                                        "type": "string",
+                                        "example": "IPhone-12"
+                                    },
+                                    "description": {
+                                        "type": "text",
+                                        "example": "IPhone 12 phone description"
+                                    },
+                                    "price": {
+                                        "type": "decimal",
+                                        "example": "4000.00"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Invalid  Product detials entered",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid  Product Details entered "
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "product": {
+                                            "$ref": "#/components/schemas/Product"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Product": {
+                "required": [
+                    "name",
+                    "slug",
+                    "price"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "maxLength": 191,
+                        "example": "IPhone 12"
+                    },
+                    "slug": {
+                        "description": "slug for the product",
+                        "type": "string",
+                        "readOnly": "true",
+                        "example": "Iphone-12"
+                    },
+                    "description": {
+                        "type": "text",
+                        "example": "IPhone 12 description and specification of item"
+                    },
+                    "price": {
+                        "type": "decimal",
+                        "example": "241000.50"
+                    },
+                    "created_at": {
+                        "description": "Initial creation timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    },
+                    "updated_at": {
+                        "description": "Last update timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Product"
+                }
+            },
+            "User": {
+                "required": [
+                    "password",
+                    "email"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "email": {
+                        "description": "User unique email address",
+                        "type": "string",
+                        "format": "email",
+                        "readOnly": "true",
+                        "example": "user@gmail.com"
+                    },
+                    "name": {
+                        "type": "string",
+                        "maxLength": 191,
+                        "example": "John Doe"
+                    },
+                    "created_at": {
+                        "description": "Initial creation timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    },
+                    "updated_at": {
+                        "description": "Last update timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "User"
+                }
+            }
+        }
+    },
+    "security": [
+        []
+    ]
+}
