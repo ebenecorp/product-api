@@ -11,6 +11,11 @@ use Illuminate\Routing\Controller as BaseController;
  * @OA\Info(
  *    title="Product Management API",
  *    version="1.0.0",
+ *         
+ *               
+ *            
+ *                  
+ *                   
  * )
  */
 

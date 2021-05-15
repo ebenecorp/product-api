@@ -13,9 +13,33 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     //
-
     /**
-     * @OA\Get(
+     * @SWG\Post(
+     *      path="/api/register",
+     *      tags={"auth"},
+     *      operationId="authLogin",
+     *      summary="Register new user",
+     *      consumes={"application/x-www-form-urlencoded"},
+     *      produces={"application/json"},
+     *      @SWG\Parameter(
+     *          name="name",
+     *          in="formData",
+     *          required=true, 
+     *          type="string" 
+     *      ),
+     *      @SWG\Parameter(
+     *          name="phone",
+     *          in="formData",
+     *          required=true, 
+     *          type="number" 
+     *      ),
+     *      @SWG\Response(
+     *          response=200,
+     *          description="Success"
+     *      ),
+     */
+    /**
+     * @OA\Post(
      * path="/api/register",
      * summary="Sign in",
      * description="Register new user with name, email, password",

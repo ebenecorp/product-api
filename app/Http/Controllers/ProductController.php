@@ -103,6 +103,7 @@ class ProductController extends Controller
      * summary="Get a specific product in the system",
      * description="Get a specific product in the system",
      * operationId="Products",
+     
      * tags={"Products"},
      * 
      * @OA\Response(
