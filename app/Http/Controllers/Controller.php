@@ -11,7 +11,7 @@ use Illuminate\Routing\Controller as BaseController;
  * @OA\Info(
  *    title="Product Management API",
  *    version="1.0.0",
- *         
+ *    description="Kindly use POST Man to test the Post request endpoints and ensure the request body utilizes x-www-form-encoded body type" ,   
  *               
  *            
  *                  
